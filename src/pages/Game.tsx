@@ -20,6 +20,7 @@ import { GamePhase, RoomStatus } from '../types';
 import { TIMING } from '../constants';
 import { useGameStore } from '../store/gameStore';
 import { useRoomStore } from '../store/roomStore';
+import toast from 'react-hot-toast';
 
 export const Game: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -91,8 +92,6 @@ export const Game: React.FC = () => {
     }
   }, [room, myPlayerInfo, navigate, roomId]);
 
-  if (!room || !myPlayerInfo) return null;
-
   // Manage Raja Announcement visibility
   const [showRajaAnnouncement, setShowRajaAnnouncement] = useState(false);
 
@@ -110,6 +109,8 @@ export const Game: React.FC = () => {
       useRoomStore.getState().dispatchAction({ type: 'NEXT_ROUND' });
     }
   };
+
+  if (!room || !myPlayerInfo) return null;
 
   const renderPhase = () => {
     switch (phase) {
