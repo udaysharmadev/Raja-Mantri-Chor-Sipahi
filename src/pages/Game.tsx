@@ -140,7 +140,7 @@ export const Game: React.FC = () => {
           return (
             <div className="flex flex-col h-full items-center justify-center z-20">
               <h2 className="text-3xl text-[var(--color-heritage-indigo)] font-black heritage-heading mb-8">Next round starts in...</h2>
-              <Countdown seconds={3} />
+              <Countdown seconds={3} onComplete={handleCountdownComplete} />
             </div>
           );
         }
