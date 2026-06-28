@@ -32,6 +32,18 @@ export const Lobby: React.FC = () => {
     }
   }, [room?.status, navigate, roomId]);
 
+  // Redirect to join page if state is lost (e.g. user refreshed the page)
+  useEffect(() => {
+    if (!room || !playerId) {
+      if (roomId) {
+        toast.error("You have been disconnected. Please rejoin.");
+        navigate(`/join?code=${roomId}`);
+      } else {
+        navigate('/');
+      }
+    }
+  }, [room, playerId, navigate, roomId]);
+
   if (!room || !playerId) {
     return <div className="flex flex-1 items-center justify-center text-[var(--color-heritage-indigo)] font-bold">Loading lobby...</div>;
   }

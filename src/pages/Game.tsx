@@ -79,6 +79,18 @@ export const Game: React.FC = () => {
     }
   }, [phase, isHost, roomId]);
 
+  // Redirect to join page if state is lost (e.g. user refreshed the page)
+  useEffect(() => {
+    if (!room || !myPlayerInfo) {
+      if (roomId) {
+        toast.error("You have been disconnected from the game.");
+        navigate(`/join?code=${roomId}`);
+      } else {
+        navigate('/');
+      }
+    }
+  }, [room, myPlayerInfo, navigate, roomId]);
+
   if (!room || !myPlayerInfo) return null;
 
   // Manage Raja Announcement visibility
