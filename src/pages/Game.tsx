@@ -93,8 +93,8 @@ export const Game: React.FC = () => {
       case GamePhase.RoleReveal:
       case GamePhase.AssignRoles:
         return (
-          <div className="flex h-full items-center justify-center">
-            <h2 className="text-3xl font-bold text-white animate-pulse">Assigning Roles...</h2>
+          <div className="flex h-full items-center justify-center z-20">
+            <h2 className="text-3xl font-black heritage-heading text-[var(--color-heritage-indigo)] animate-pulse">Assigning Roles...</h2>
           </div>
         );
       
@@ -127,8 +127,8 @@ export const Game: React.FC = () => {
       case GamePhase.Leaderboard:
         if (showCountdown) {
           return (
-            <div className="flex flex-col h-full items-center justify-center">
-              <h2 className="text-3xl text-white font-bold mb-8">Next round starts in...</h2>
+            <div className="flex flex-col h-full items-center justify-center z-20">
+              <h2 className="text-3xl text-[var(--color-heritage-indigo)] font-black heritage-heading mb-8">Next round starts in...</h2>
               <Countdown seconds={3} />
             </div>
           );
@@ -138,8 +138,8 @@ export const Game: React.FC = () => {
         const sortedPlayers = Object.values(room.players).sort((a, b) => b.score - a.score);
         
         return (
-          <div className="w-full max-w-2xl mx-auto flex flex-col">
-            <h2 className="text-4xl font-display font-bold text-center text-white mb-8">Leaderboard</h2>
+          <div className="w-full max-w-2xl mx-auto flex flex-col z-20">
+            <h2 className="text-4xl heritage-heading font-black text-center text-[var(--color-heritage-indigo)] mb-8">Leaderboard</h2>
             {sortedPlayers.map((p, index) => {
               // Calculate points earned this round
               let pointsEarned = 0;

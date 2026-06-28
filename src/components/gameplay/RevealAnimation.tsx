@@ -37,25 +37,25 @@ export const RevealAnimation: React.FC<RevealAnimationProps> = ({ players, guess
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="text-center mb-10"
+        className="text-center mb-10 z-20"
       >
-        <h2 className="text-2xl font-bold text-white/70 mb-2">
+        <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-heritage-indigo)] opacity-80 mb-2 uppercase tracking-widest">
           Mantri guessed {guessed?.name} was the Chor
         </h2>
         
         {guess.correct ? (
-          <h1 className="text-5xl font-display font-bold text-green-400 drop-shadow-[0_0_20px_rgba(74,222,128,0.5)]">
+          <h1 className="text-5xl sm:text-7xl heritage-heading font-black text-[var(--color-heritage-green)] drop-shadow-md">
             Correct!
           </h1>
         ) : (
-          <h1 className="text-5xl font-display font-bold text-red-500 drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]">
+          <h1 className="text-5xl sm:text-7xl heritage-heading font-black text-red-600 drop-shadow-md">
             Wrong!
           </h1>
         )}
       </motion.div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl px-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl px-4 z-20">
         {playerArray.map((p, i) => {
           const roleInfo = ROLE_INFO[p.role as Role];
           const isGuessed = p.id === guess.guessedId;
@@ -66,9 +66,9 @@ export const RevealAnimation: React.FC<RevealAnimationProps> = ({ players, guess
             points = guess.correct ? SCORING[p.role].correct : SCORING[p.role].wrong;
           }
 
-          let cardBorder = 'border-white/10';
+          let cardBorder = 'border-[var(--color-heritage-indigo)]';
           if (isGuessed) {
-            cardBorder = guess.correct ? 'border-green-500' : 'border-red-500';
+            cardBorder = guess.correct ? 'border-[var(--color-heritage-green)]' : 'border-red-600';
           }
 
           return (
@@ -78,28 +78,28 @@ export const RevealAnimation: React.FC<RevealAnimationProps> = ({ players, guess
               animate={{ rotateY: 0, opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.2, type: 'spring', damping: 15 }}
               onAnimationStart={() => setTimeout(() => play('flip'), i * 200)}
-              className={`relative flex flex-col items-center p-6 rounded-2xl glass ${cardBorder} ${isGuessed ? (guess.correct ? 'shadow-[0_0_30px_rgba(74,222,128,0.3)]' : 'shadow-[0_0_30px_rgba(239,68,68,0.3)]') : ''}`}
+              className={`relative flex flex-col items-center p-4 sm:p-6 rounded-md bg-white border-4 ${cardBorder} shadow-[var(--shadow-tactile-lg)]`}
             >
               {/* Highlight Guessed Player */}
               {isGuessed && (
-                <div className={`absolute -top-3 px-3 py-1 rounded-full text-xs font-bold ${guess.correct ? 'bg-green-500 text-slate-900' : 'bg-red-500 text-white'}`}>
+                <div className={`absolute -top-3 sm:-top-4 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest shadow-md ${guess.correct ? 'bg-[var(--color-heritage-green)] text-white' : 'bg-red-600 text-white'}`}>
                   {guess.correct ? 'CAUGHT!' : 'WRONG PERSON'}
                 </div>
               )}
               
               {isMantri && (
-                <div className="absolute -top-3 px-3 py-1 rounded-full bg-[var(--color-emerald)] text-white text-xs font-bold">
+                <div className="absolute -top-3 sm:-top-4 px-3 py-1 rounded-full bg-[var(--color-heritage-saffron)] text-white text-xs font-black uppercase tracking-widest shadow-md">
                   GUESSED
                 </div>
               )}
 
-              <Avatar emoji={p.avatar} size="lg" className="mb-4" />
-              <h3 className="font-bold text-xl text-white truncate w-full text-center">{p.name}</h3>
-              {p.id === myId && <span className="text-xs text-white/50">(You)</span>}
+              <Avatar emoji={p.avatar} size="lg" className="mb-2 sm:mb-4" />
+              <h3 className="font-bold text-lg sm:text-xl text-[var(--color-heritage-indigo)] truncate w-full text-center">{p.name}</h3>
+              {p.id === myId && <span className="text-xs text-[var(--color-heritage-indigo)] opacity-60 font-bold">(You)</span>}
               
               <div 
-                className="w-full mt-4 py-2 text-center rounded-xl font-bold"
-                style={{ backgroundColor: roleInfo?.color, color: p.role === Role.Raja ? '#000' : '#fff' }}
+                className="w-full mt-4 py-2 text-center rounded-sm font-black border-2 border-[var(--color-heritage-indigo)]"
+                style={{ backgroundColor: roleInfo?.color, color: 'white' }}
               >
                 {roleInfo?.name}
               </div>
@@ -108,7 +108,7 @@ export const RevealAnimation: React.FC<RevealAnimationProps> = ({ players, guess
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: showScores ? 1 : 0, y: showScores ? 0 : 20 }}
-                className="mt-4 text-3xl font-display font-bold text-white drop-shadow-md"
+                className="mt-4 text-3xl sm:text-4xl font-black text-[var(--color-heritage-indigo)] drop-shadow-sm"
               >
                 +{points}
               </motion.div>
