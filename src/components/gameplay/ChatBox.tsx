@@ -15,11 +15,24 @@ export const ChatBox: React.FC = () => {
   const messages = room?.chatMessages || [];
   const players = room?.players || {};
 
+  const [unreadCount, setUnreadCount] = useState(0);
+  const prevMessagesLength = useRef(messages.length);
+
+  useEffect(() => {
+    if (messages.length > prevMessagesLength.current) {
+      if (!isOpen) {
+        setUnreadCount(prev => prev + (messages.length - prevMessagesLength.current));
+      }
+    }
+    prevMessagesLength.current = messages.length;
+  }, [messages.length, isOpen]);
+
   useEffect(() => {
     if (isOpen) {
+      setUnreadCount(0);
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages.length, isOpen]);
+  }, [isOpen, messages.length]);
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,9 +47,21 @@ export const ChatBox: React.FC = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 z-50 p-4 rounded-full bg-[var(--color-heritage-saffron)] text-white shadow-[var(--shadow-tactile-lg)] hover:-translate-y-1 transition-transform tactile-border"
+        className="fixed bottom-4 right-4 z-50 p-4 rounded-full bg-[var(--color-heritage-saffron)] text-white shadow-[var(--shadow-tactile-lg)] hover:-translate-y-1 transition-transform tactile-border relative"
       >
         <MessageSquare size={24} />
+        <AnimatePresence>
+          {unreadCount > 0 && !isOpen && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-[var(--color-heritage-indigo)]"
+            >
+              {unreadCount > 9 ? '9+' : unreadCount}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </button>
 
       {/* Chat Panel */}
