@@ -81,6 +81,17 @@ export const Game: React.FC = () => {
 
   if (!room || !myPlayerInfo) return null;
 
+  // Manage Raja Announcement visibility
+  const [showRajaAnnouncement, setShowRajaAnnouncement] = useState(false);
+
+  useEffect(() => {
+    if (phase === GamePhase.MantriReveal) {
+      setShowRajaAnnouncement(true);
+    } else {
+      setShowRajaAnnouncement(false);
+    }
+  }, [phase]);
+
   const handleCountdownComplete = async () => {
     setShowCountdown(false);
     if (isHost && roomId) {
@@ -209,9 +220,9 @@ export const Game: React.FC = () => {
       />
 
       <RajaAnnouncement 
-        isVisible={phase === GamePhase.MantriReveal} // Shows briefly at start of MantriReveal phase
+        isVisible={showRajaAnnouncement} 
         myRole={myRole} 
-        onComplete={() => {}} // Auto hides
+        onComplete={() => setShowRajaAnnouncement(false)} 
       />
     </PageTransition>
   );
